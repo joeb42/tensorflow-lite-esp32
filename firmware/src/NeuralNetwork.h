@@ -18,17 +18,19 @@ class NeuralNetwork
 {
 private:
     tflite::MicroMutableOpResolver<10> *resolver;
+    // tflite::AllOpsResolver resolver;
     tflite::ErrorReporter *error_reporter;
     const tflite::Model *model;
     tflite::MicroInterpreter *interpreter;
+    uint8_t *tensor_arena;
     TfLiteTensor *input;
     TfLiteTensor *output;
-    uint8_t *tensor_arena;
 
 public:
-    float *getInputBuffer();
+    int8_t *getInputBuffer();
     NeuralNetwork();
-    float predict();
+    int8_t predict();
+    int8_t convert_float2int8(float x);
+    float convert_int82float(int8_t x);
 };
-
 #endif
